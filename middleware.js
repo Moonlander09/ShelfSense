@@ -5,6 +5,9 @@ const SECRET = new TextEncoder().encode(
   process.env.JWT_SECRET
 );
 
+// ✅ ADD THIS: Change runtime from Edge to Node.js
+export const runtime = "nodejs";
+
 export async function middleware(request) {
   const { pathname } = request.nextUrl;
 
@@ -12,9 +15,7 @@ export async function middleware(request) {
   let isLoggedIn = false;
 
   console.log("Middleware invoked for path:", pathname);
-  console.log("JWT Token:", token ? "Present" : "Not Present", "this is the token:",token);
-
- 
+  console.log("JWT Token:", token ? "Present" : "Not Present", "token:", token);
 
   if (token) {
     try {
@@ -23,7 +24,6 @@ export async function middleware(request) {
       });
       isLoggedIn = true;
     } catch {
-      // ❗ Do NOT log out user here
       isLoggedIn = false;
     }
   }
