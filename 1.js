@@ -5,8 +5,6 @@ const SECRET = new TextEncoder().encode(
   process.env.JWT_SECRET
 );
 
-// ✅ ADD THIS: Change runtime from Edge to Node.js
-export const runtime = "nodejs";
 
 export async function middleware(request) {
   const { pathname } = request.nextUrl;
