@@ -118,7 +118,7 @@ export default function AddItemModal({ open, onClose, onSubmit, isPending }) {
             </div>
             </div>
             {/* Category & Name */}
-            <div className="grid grid-cols-1 gap-2">
+            <div className="grid grid-cols-1 gap-3">
               <label className="block">
                 <div className="flex items-center justify-between mb-1">
                   <span className="text-sm">Category</span>
@@ -161,7 +161,7 @@ export default function AddItemModal({ open, onClose, onSubmit, isPending }) {
             {/* Category specific fields */}
             <motion.div
               ref={contentRef}
-              className="mt-2 overflow-hidden"
+              className="mt-5 overflow-hidden"
               animate={{ height: contentHeight }}
               transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
             >
