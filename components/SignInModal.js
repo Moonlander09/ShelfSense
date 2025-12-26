@@ -17,8 +17,8 @@ function SignInModal({ onClose, onOpen }) {
   const { mutate, isPending } = useMutation({
     mutationKey: ["signin"],
     mutationFn: signInRequest,
-    onSuccess: (data) => {
-      queryClient.invalidateQueries({ queryKey: ["me"] });
+    onSuccess: async (data) => {
+      queryClient.refetchQueries({ queryKey: ["me"], type: "active" });
 
       toast.success(data.message || "Signed in successfully!");
       setEmail("");
