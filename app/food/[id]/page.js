@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import dayjs from "dayjs";
@@ -18,6 +18,8 @@ import { editBatchRequest } from "@/helper/editBatchRequest";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import EditBatchModal from "@/components/EditBatchModal";
 import Loading from "@/components/Loading";
+import { useMe } from "@/helper/useMe";
+import { useRouter } from "next/navigation";
 
 dayjs.extend(relativeTime);
 
@@ -61,6 +63,9 @@ export default function FoodItemPage({ params }) {
   const [batchData, setBatchData] = useState(null);
   const { id } = React.use(params);
 
+  const { data: user, isLoading: isUserLoading } = useMe();
+  const router = useRouter();
+  
   const queryClient = useQueryClient();
 
   const { data, isLoading, isError } = useQuery({
@@ -126,11 +131,28 @@ export default function FoodItemPage({ params }) {
     setOpenEditBatch(true);
   };
 
+
+  useEffect(() => {
+    if (!isUserLoading && !user) {
+      router.replace("/signin");
+    }
+  }, [isUserLoading, user, router]);
+  
+  if (isUserLoading) {
+    return <Loading />;
+  }
+  
+  if (!user) {
+    return null;
+  }
+  
+
   if (isLoading) {
     return (
     <Loading/>
     );
   }
+
 
   if (isError || !data || !data.data) {
     return (

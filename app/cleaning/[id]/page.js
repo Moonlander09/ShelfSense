@@ -1,12 +1,14 @@
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
 
 import { useQuery } from "@tanstack/react-query";
 import dayjs from "dayjs";
 import { getItemById } from "@/helper/getItemById"; 
 import NonFoodItemPage from "@/components/NonFoodItemPage";
 import Loading from "@/components/Loading";
+import { useRouter } from "next/navigation";
+import { useMe } from "@/helper/useMe";
 
 const colorMap = {
   green: {
@@ -44,12 +46,28 @@ const colorMap = {
 
 export default function CleaningItemPage({ params }) {
  const { id } = React.use(params);
+ const {data:user,isLoading:isUserLoading} = useMe();
+ const router = useRouter();
 
   const { data, isLoading, isError } = useQuery({
     queryKey: ["householdItem", id],
     queryFn: () => getItemById(id),
     enabled: !!id,
   });
+
+  useEffect(() => {
+    if (!isUserLoading && !user) {
+      router.replace("/signin");
+    }
+  }, [isUserLoading, user, router]);
+  
+  if (isUserLoading) {
+    return <Loading />;
+  }
+  
+  if (!user) {
+    return null;
+  }
 
   if (isLoading) {
     return (

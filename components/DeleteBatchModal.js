@@ -12,7 +12,7 @@ function DeleteBatchModal({ openDeleteBatch, onClose ,onSubmit,isPending}) {
                  initial={{ opacity: 0 }}
                  animate={{ opacity: 1 }}
                  exit={{ opacity: 0 }}
-                 className="fixed inset-0 z-50  mx-auto flex items-center justify-center px-4  backdrop-blur-sm bg-[var(--text-sdy)]/15"
+                 className="fixed inset-0 z-50  mx-auto flex items-center justify-center px-2  backdrop-blur-sm bg-[var(--text-sdy)]/15"
                  onClick={() => onClose(false)}
                >
                  <motion.div
@@ -20,13 +20,13 @@ function DeleteBatchModal({ openDeleteBatch, onClose ,onSubmit,isPending}) {
                    animate={{ y: 0, scale: 1 }}
                    exit={{ y: 20, scale: 0.98 }}
                    transition={{ type: "spring", stiffness: 240, damping: 20 }}
-                   className="w-full max-w-[420px] bg-white rounded-2xl shadow-xl p-6"
+                   className="w-full max-w-[420px] bg-white rounded-2xl shadow-xl px-3 py-6"
                    onClick={(e) => e.stopPropagation()}
                  >
                    <div className="flex items-center justify-between mb-4">
                      <div className="flex items-center gap-3">
                        <div className="flex h-9 w-9 items-center justify-center rounded-full bg-slate-100 border border-slate-200 text-[var(--expired)]">
-                         <IoAlertCircle className="h-5 w-5" />
+                         <IoAlertCircle className="h-5 w-5 animate-bounce [animation-duration:2s]" />
                        </div>
                        <div>
                          <h3 className="text-lg font-semibold leading-tight">
@@ -37,13 +37,15 @@ function DeleteBatchModal({ openDeleteBatch, onClose ,onSubmit,isPending}) {
                          </p>
                        </div>
                      </div>
-                     <button
-                       type="button"
-                       onClick={() => onClose(false)}
-                       className="flex h-6 w-6 items-center justify-center rounded-full bg-slate-100 border border-slate-200 cursor-pointer"
-                     >
-                       <FiX className="h-3 w-3 text-[var(--text-sdy)]" />
-                     </button>
+                     <div className="self-start">
+              <button
+                type="button"
+                onClick={() => onClose(false)}
+                className="flex h-6 w-6 items-center justify-center rounded-full bg-slate-100 border border-slate-200 text-[var(--text-sdy)] hover:text-[var(--expired)] cursor-pointer hover:scale-125 hover:border-[var(--expired)] hover:bg-[var(--expired)]/15 transition-all duration-250"
+              >
+                <FiX className="h-3 w-3" />
+              </button>
+            </div>
                    </div>
                    <div className="border border-slate-200 bg-slate-50 p-3 rounded-2xl">
                      <div className=" text-sm text-[var(--text-sdy)] tracking-wide">

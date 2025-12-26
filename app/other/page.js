@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import dayjs from "dayjs";
@@ -16,6 +16,8 @@ import DeleteItemModal from "@/components/DeleteItemModal";
 import EditItemForNonFoodModal from "@/components/EditItemForNonFoodModal";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import Loading from "@/components/Loading";
+import { useRouter } from "next/navigation";
+import { useMe } from "@/helper/useMe";
 
 
 dayjs.extend(relativeTime);
@@ -58,6 +60,8 @@ export default function OtherItemCards() {
   const [openDelete, setOpenDelete] = useState(false);
   const [editingItemId, setEditingItemId] = useState(null);
   const [itemData, setItemData] = useState(null);
+  const {data:user,isLoading:isUserLoading} = useMe();
+  const router = useRouter();
 
   const queryClient = useQueryClient();
 
@@ -124,6 +128,20 @@ export default function OtherItemCards() {
     setEditingItemId(id);
     setOpenDelete(true);
   };
+
+  useEffect(() => {
+    if (!isUserLoading && !user) {
+      router.replace("/signin");
+    }
+  }, [isUserLoading, user, router]);
+  
+  if (isUserLoading) {
+    return <Loading />;
+  }
+  
+  if (!user) {
+    return null;
+  }
 
   if (isLoading) {
     return (

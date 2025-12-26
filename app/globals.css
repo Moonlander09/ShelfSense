@@ -3,7 +3,7 @@
 /* 1. Design tokens (Tailwind v4) */
 /* ============================= */
 @theme {
-  /* Colors */
+  /* Colors */ 
   --color-pmy: #4caf50;
   --color-sdy: #9e9e9e;
   --color-dgr: #f44336;
@@ -25,10 +25,58 @@
    
 }
 
+
 /* ============================= */
 /* 2. Base styles */
 /* ============================= */
 @layer base {
+
+  input[type="date"] {
+  appearance: none;
+  -webkit-appearance: none;
+
+  height: auto;
+  min-height: 0;
+
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+
+  line-height: 1.25rem;
+}
+
+  /* Hide scrollbar but keep scroll */
+.hide-scrollbar {
+  scrollbar-width: none;       /* Firefox */
+  -ms-overflow-style: none;    /* IE & Edge */
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;               /* Chrome, Safari */
+} 
+
+  @keyframes vibrate {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  20% {
+    transform: translateX(-1px);
+  }
+  40% {
+    transform: translateY(1px);
+  }
+  60% {
+    transform: translateY(-1px);
+  }
+  80% {
+    transform: translateX(1px);
+  }
+}
+
+/* Utility class matching Tailwind naming */
+.animate-vibrate {
+  animation: vibrate 0.5s linear infinite;
+}
+
   html,
   body {
     background-color: var(--bg-page);

@@ -38,7 +38,7 @@ export default function AddItemButton() {
         initial={{ y: 20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ type: "spring", stiffness: 120, damping: 12 }}
-        className="px-2 mt-10"
+        className="px-4 mt-10"
       >
         <Button
           onClick={() => setOpen(true)}

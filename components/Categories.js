@@ -4,6 +4,9 @@ import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { FiCoffee, FiHome, FiSmile, FiDroplet, FiBox } from "react-icons/fi";
 import Link from "next/link";
+import { useMe } from "@/helper/useMe";
+import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
 
 // add color styles per category
 const categories = [
@@ -55,12 +58,23 @@ const categories = [
 ];
 
 export default function Categories() {
+  const {data} = useMe();
+  const router = useRouter();
+
+  const handleCategoryClick = (categoryId) => {
+    if(!data){
+  toast.error("Please sign in to access categories.");
+  return;
+    }
+    router.push(`/${categoryId}`);
+  }
+
   return (
  <motion.div
   initial={{ y: 60, opacity: 0 }}
   animate={{ y: 0, opacity: 1 }}
   transition={{ type: "spring", stiffness: 120, damping: 18 }}
-  className=" mx-2 my-8 px-6 py-8 rounded-2xl shadow-md bg-white border border-slate-200 "
+  className=" mx-4 my-8 px-6 py-8 rounded-2xl shadow-md bg-white border border-slate-200 "
 >
   <div className="flex items-center justify-center gap-2 mb-8 opacity-80">
     <div className="h-[1px] w-8 bg-gradient-to-r from-transparent to-slate-400"></div>
@@ -78,9 +92,9 @@ export default function Categories() {
           whileHover={{ y: -2 }}
           className="w-full "
         >
-          <Link href={`/${cat.id}`}>
+          {/* <Link href={`/${cat.id}`}> */}
             <Button
-              className={`w-full h-24 rounded-2xl shadow-sm hover:shadow-md flex flex-col items-center justify-center gap-2 border-2 ${cat.border} transition-all duration-300 group relative overflow-hidden bg-white hover:border-transparent`}
+              className={`w-full h-24 rounded-2xl shadow-sm hover:shadow-md flex flex-col items-center justify-center gap-2 border-2 ${cat.border} transition-all duration-300 group relative overflow-hidden bg-white hover:border-transparent`} onClick={() => handleCategoryClick(cat.id)}
             >
               {/* Subtle gradient background that appears on hover */}
               <div className={`absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-gradient-to-br ${cat.bg.replace('bg-', 'from-white to-')}/30`}></div>
@@ -88,13 +102,13 @@ export default function Categories() {
               <span
                 className={`relative z-10 flex h-10 w-10 items-center justify-center rounded-xl transition-transform group-hover:scale-110 duration-300 ${cat.iconBg} ${cat.iconColor}`}
               >
-                <Icon className={`h-5 w-5`} />
+                <Icon className={`h-5 w-5 animate-pulse [animation-duration:2s]`} />
               </span>
               <span className="relative z-10 text-sm font-semibold text-slate-600 group-hover:text-slate-800 transition-colors">
                 {cat.label}
               </span>
             </Button>
-          </Link>
+          {/* </Link> */}
         </motion.div>
       );
     })}

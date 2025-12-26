@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import dayjs from "dayjs";
@@ -16,6 +16,8 @@ import { deleteItemRequest } from "@/helper/deleteItemRequest";
 import DeleteItemModal from "@/components/DeleteItemModal";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import Loading from "@/components/Loading";
+import { useMe } from "@/helper/useMe";
+import { useRouter } from "next/navigation";
 
 dayjs.extend(relativeTime);
 
@@ -74,6 +76,10 @@ export default function FoodItemCards() {
   const [openDelete, setOpenDelete] = useState(false);
   const [editingItemId, setEditingItemId] = useState(null);
   const [itemData, setItemData] = useState(null);
+
+const { data: user, isLoading: isUserLoading } = useMe();
+
+  const router = useRouter();
 
   const queryClient = useQueryClient();
 
@@ -141,11 +147,32 @@ export default function FoodItemCards() {
     setOpenEdit(true);
   };
 
+
+useEffect(() => {
+  if (!isUserLoading && !user) {
+    router.replace("/signin");
+  }
+}, [isUserLoading, user, router]);
+
+if (isUserLoading) {
+  return <Loading />;
+}
+
+if (!user) {
+  return null;
+}
+
   if (isLoading) {
     return (
       <Loading/>
     );
   }
+
+
+if (!user) {
+  router.replace("/signin");
+  return null;
+}
 
   const items = data.data;
   const total = data.results ?? items.length;

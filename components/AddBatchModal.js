@@ -51,14 +51,14 @@ function AddBatchModal({ open, onClose, onSubmit, isPending }) {
             animate={{ y: 0, scale: 1 }}
             exit={{ y: 20, scale: 0.98 }}
             transition={{ type: "spring", stiffness: 240, damping: 20 }}
-            className="w-full max-w-[420px] bg-white rounded-2xl shadow-xl p-6 border border-slate-200"
+            className="w-full max-w-[420px] bg-white rounded-2xl shadow-xl px-3 py-6 border border-slate-200"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Header */}
             <div className="flex items-center justify-between mb-4">
               <div className="flex items-center gap-3">
-                <div className="flex h-9 w-9 items-center justify-center rounded-full bg-slate-100 border border-slate-200 text-[var(--fresh)]">
-                  <FiPlusCircle className="h-4 w-4" />
+                <div className="flex h-9 w-9 items-center justify-center rounded-full bg-slate-200 border border-[var(--fresh)] text-[var(--fresh)]">
+                  <FiPlusCircle className="h-4 w-4 animate-spin [animation-duration:2s]" />
                 </div>
                 <div>
                   <h3 className="text-lg font-semibold leading-tight">
@@ -69,13 +69,15 @@ function AddBatchModal({ open, onClose, onSubmit, isPending }) {
                   </p>
                 </div>
               </div>
+         <div className="self-start">
               <button
                 type="button"
                 onClick={() => onClose(false)}
-                className="flex h-6 w-6 items-center justify-center rounded-full bg-slate-100 border border-slate-200 cursor-pointer"
+                className="flex h-6 w-6 items-center justify-center rounded-full bg-slate-100 border border-slate-200 text-[var(--text-sdy)] hover:text-[var(--expired)] cursor-pointer hover:scale-125 hover:border-[var(--expired)] hover:bg-[var(--expired)]/15 transition-all duration-250"
               >
-                <FiX className="h-3 w-3 text-[var(--text-sdy)]" />
+                <FiX className="h-3 w-3" />
               </button>
+            </div>
             </div>
 
             <div className="mt-5 rounded-2xl border border-slate-200 bg-slate-50 p-3 grid grid-cols-2 gap-3">
