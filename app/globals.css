@@ -30,7 +30,7 @@
 /* 2. Base styles */
 /* ============================= */
 @layer base {
-
+ 
   input[type="date"] {
   appearance: none;
   -webkit-appearance: none;

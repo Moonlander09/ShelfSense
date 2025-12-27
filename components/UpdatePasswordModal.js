@@ -3,8 +3,7 @@ import { useMutation } from "@tanstack/react-query";
 import { updatePasswordRequest } from "@/helper/updatePasswordRequest";
 import toast from "react-hot-toast";
 import { useState } from "react";
-
-const { AnimatePresence, motion } = require("framer-motion");
+import { motion } from "framer-motion";
 
 function UpdatePasswordModal({ onClose }) {
   const [oldPassword, setOldPassword] = useState("");
@@ -19,7 +18,7 @@ function UpdatePasswordModal({ onClose }) {
       setOldPassword("");
       setPassword("");
       setConfirmPassword("");
-      router.push("/");
+      onClose(false);
     },
     onError: (error) => {
       // error.message is what we threw above

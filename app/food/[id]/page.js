@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import dayjs from "dayjs";
@@ -19,7 +19,8 @@ import Breadcrumbs from "@/components/Breadcrumbs";
 import EditBatchModal from "@/components/EditBatchModal";
 import Loading from "@/components/Loading";
 import { useMe } from "@/helper/useMe";
-import { useRouter } from "next/navigation";
+import UserAuthWarning from "@/components/UserAuthWarning";
+
 
 dayjs.extend(relativeTime);
 
@@ -64,7 +65,7 @@ export default function FoodItemPage({ params }) {
   const { id } = React.use(params);
 
   const { data: user, isLoading: isUserLoading } = useMe();
-  const router = useRouter();
+
   
   const queryClient = useQueryClient();
 
@@ -132,26 +133,18 @@ export default function FoodItemPage({ params }) {
   };
 
 
-  useEffect(() => {
-    if (!isUserLoading && !user) {
-      router.replace("/signin");
-    }
-  }, [isUserLoading, user, router]);
-  
-  if (isUserLoading) {
-    return <Loading />;
-  }
-  
-  if (!user) {
-    return null;
-  }
-  
-
-  if (isLoading) {
-    return (
-    <Loading/>
-    );
-  }
+   if (isUserLoading) {
+     return <Loading />;
+   }
+ 
+   if (!user) {
+     return <UserAuthWarning />;
+   }
+ 
+   if (isLoading) {
+     return <Loading />;
+   }
+ 
 
 
   if (isError || !data || !data.data) {

@@ -1,6 +1,6 @@
 "use client";
 
-import { AnimatePresence, motion } from "framer-motion";
+import { motion } from "framer-motion";
 
 import { useState } from "react";
 import { FiLock, FiLogIn, FiMail, FiUserPlus, FiX } from "react-icons/fi";

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import dayjs from "dayjs";
@@ -16,8 +16,9 @@ import { editItemRequest } from "@/helper/editItemRequest";
 import { deleteItemRequest } from "@/helper/deleteItemRequest";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import Loading from "@/components/Loading";
-import { useRouter } from "next/navigation";
+
 import { useMe } from "@/helper/useMe";
+import UserAuthWarning from "@/components/UserAuthWarning";
 
 dayjs.extend(relativeTime);
 
@@ -59,8 +60,7 @@ export default function ToiletriesItemCards() {
   const [openDelete, setOpenDelete] = useState(false);
   const [editingItemId, setEditingItemId] = useState(null);
   const [itemData, setItemData] = useState(null);
-  const {data:user,isLoading:isUserLoading} = useMe();
-  const router = useRouter();
+  const { data: user, isLoading: isUserLoading } = useMe();
 
   const queryClient = useQueryClient();
 
@@ -128,24 +128,16 @@ export default function ToiletriesItemCards() {
     setOpenDelete(true);
   };
 
-  useEffect(() => {
-    if (!isUserLoading && !user) {
-      router.replace("/signin");
-    }
-  }, [isUserLoading, user, router]);
-  
   if (isUserLoading) {
     return <Loading />;
   }
-  
+
   if (!user) {
-    return null;
+    return <UserAuthWarning />;
   }
 
   if (isLoading) {
-    return (
-     <Loading/>
-    );
+    return <Loading />;
   }
 
   const items = data?.data || [];
@@ -153,7 +145,11 @@ export default function ToiletriesItemCards() {
 
   return (
     <>
-    <Breadcrumbs bgColor="bg-emerald-50"  bgBorder="border-emerald-200" textColor ="text-emerald-700"/>
+      <Breadcrumbs
+        bgColor="bg-emerald-50"
+        bgBorder="border-emerald-200"
+        textColor="text-emerald-700"
+      />
       <div className="px-2 py-8">
         {/* Page title + count */}
         <motion.div

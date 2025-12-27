@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import dayjs from "dayjs";
@@ -17,7 +17,7 @@ import DeleteItemModal from "@/components/DeleteItemModal";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import Loading from "@/components/Loading";
 import { useMe } from "@/helper/useMe";
-import { useRouter } from "next/navigation";
+import UserAuthWarning from "@/components/UserAuthWarning";
 
 dayjs.extend(relativeTime);
 
@@ -77,9 +77,7 @@ export default function FoodItemCards() {
   const [editingItemId, setEditingItemId] = useState(null);
   const [itemData, setItemData] = useState(null);
 
-const { data: user, isLoading: isUserLoading } = useMe();
-
-  const router = useRouter();
+  const { data: user, isLoading: isUserLoading } = useMe();
 
   const queryClient = useQueryClient();
 
@@ -147,39 +145,28 @@ const { data: user, isLoading: isUserLoading } = useMe();
     setOpenEdit(true);
   };
 
-
-useEffect(() => {
-  if (!isUserLoading && !user) {
-    router.replace("/signin");
+  if (isUserLoading) {
+    return <Loading />;
   }
-}, [isUserLoading, user, router]);
 
-if (isUserLoading) {
-  return <Loading />;
-}
-
-if (!user) {
-  return null;
-}
+  if (!user) {
+    return <UserAuthWarning />;
+  }
 
   if (isLoading) {
-    return (
-      <Loading/>
-    );
+    return <Loading />;
   }
-
-
-if (!user) {
-  router.replace("/signin");
-  return null;
-}
 
   const items = data.data;
   const total = data.results ?? items.length;
 
   return (
     <>
-    <Breadcrumbs bgColor="bg-amber-50"  bgBorder="border-amber-200" textColor ="text-amber-700"/>
+      <Breadcrumbs
+        bgColor="bg-amber-50"
+        bgBorder="border-amber-200"
+        textColor="text-amber-700"
+      />
       <div className="px-2 py-8">
         {/* NEW: page title + total count */}
         <div className="flex items-baseline justify-between mb-4">
@@ -265,7 +252,6 @@ if (!user) {
             );
           })}
         </motion.div>
-
       </div>
       <EditFoodItemModal
         key={editingItemId}

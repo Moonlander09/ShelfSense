@@ -1,14 +1,14 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React from "react";
 
 import { useQuery } from "@tanstack/react-query";
 import dayjs from "dayjs";
-import { getItemById } from "@/helper/getItemById"; 
+import { getItemById } from "@/helper/getItemById";
 import NonFoodItemPage from "@/components/NonFoodItemPage";
 import Loading from "@/components/Loading";
-import { useRouter } from "next/navigation";
 import { useMe } from "@/helper/useMe";
+import UserAuthWarning from "@/components/UserAuthWarning";
 
 const colorMap = {
   green: {
@@ -44,9 +44,8 @@ const colorMap = {
 };
 
 export default function OtherItemPage({ params }) {
- const { id } = React.use(params);
- const {data:user,isLoading:isUserLoading} = useMe();
- const router = useRouter();
+  const { id } = React.use(params);
+  const { data: user, isLoading: isUserLoading } = useMe();
 
   const { data, isLoading, isError } = useQuery({
     queryKey: ["householdItem", id],
@@ -54,26 +53,17 @@ export default function OtherItemPage({ params }) {
     enabled: !!id,
   });
 
-  useEffect(() => {
-    if (!isUserLoading && !user) {
-      router.replace("/signin");
-    }
-  }, [isUserLoading, user, router]);
-  
   if (isUserLoading) {
     return <Loading />;
   }
-  
+
   if (!user) {
-    return null;
+    return <UserAuthWarning />;
   }
 
   if (isLoading) {
-    return (
-     <Loading/>
-    );
+    return <Loading />;
   }
-
   if (isError || !data || !data.data) {
     return (
       <div className="px-4 py-10">
@@ -90,8 +80,14 @@ export default function OtherItemPage({ params }) {
   const isExpired = exp ? exp.isBefore(dayjs()) : false;
 
   return (
-   <NonFoodItemPage key={id} item={item} cmap={cmap} isExpired={isExpired}  bgColor="bg-slate-50"  bgBorder="border-slate-200" textColor ="text-slate-700"/>
+    <NonFoodItemPage
+      key={id}
+      item={item}
+      cmap={cmap}
+      isExpired={isExpired}
+      bgColor="bg-slate-50"
+      bgBorder="border-slate-200"
+      textColor="text-slate-700"
+    />
   );
 }
-
-
