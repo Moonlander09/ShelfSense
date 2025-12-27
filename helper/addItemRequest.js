@@ -1,10 +1,18 @@
 const ADD_ITEM_URL = `${process.env.NEXT_PUBLIC_BACKEND_URL}/items`;
 
 export async function addItemRequest(payload) {
+  const token = localStorage.getItem("accessToken");
+
+  if (!token) {
+    throw new Error("You are not signed in! Please log in to get access.");
+  }
+
   const res = await fetch(ADD_ITEM_URL, {
     method: "POST",
-    credentials: "include",
-    headers: { "Content-Type": "application/json" },
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
     body: JSON.stringify(payload),
   });
 
@@ -16,6 +24,5 @@ export async function addItemRequest(payload) {
     throw new Error(message);
   }
 
-  // success: { status: "success", message: "Item added successfully to inventory" }
   return data;
 }

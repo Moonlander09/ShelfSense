@@ -2,8 +2,7 @@ const SIGNOUT_URL = `${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/signout`;
 
 export async function signOutRequest() {
   const res = await fetch(SIGNOUT_URL, {
-    method: "GET",  // or DELETE, whatever your backend expects
-    credentials: "include",
+    method: "GET",
   });
 
   if (!res.ok) {

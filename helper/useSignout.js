@@ -3,11 +3,16 @@ import { signOutRequest } from "@/helper/signoutRequest";
 
 export function useSignout() {
   const queryClient = useQueryClient();
+
   return useMutation({
     mutationKey: ["signout"],
     mutationFn: signOutRequest,
     onSuccess: (data) => {
-      queryClient.removeQueries({ queryKey: ["me"] }); // ONLY this
+      // ✅ REMOVE TOKEN (MOST IMPORTANT)
+      localStorage.removeItem("accessToken");
+
+      // ✅ CLEAR USER CACHE
+      queryClient.removeQueries({ queryKey: ["me"] });
     },
   });
 }

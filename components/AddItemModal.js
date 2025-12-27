@@ -210,6 +210,7 @@ export default function AddItemModal({ open, onClose, onSubmit, isPending }) {
                         min={1}
                         value={packets}
                         onChange={(e) => setPackets(e.target.value)}
+                        required
                         disabled={isPending}
                         className="w-full rounded-2xl border border-slate-300 bg-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[var(--fresh)] focus:border-transparent disabled:opacity-50 disabled:cursor-not-allowed"
                       />

@@ -26,10 +26,10 @@ export default function RootLayout({ children }) {
         </ReactQueryProvider>
 
       <Toaster
-  position="top-center"
-  gutter={12}
+  position="bottom-center"
+  gutter={14}
   toastOptions={{
-    duration: 3000, // ⏱️ 3 seconds for all toasts
+    duration: 2000, // ⏱️ 2 seconds for all toasts
 
     style: {
       borderRadius: "14px",
