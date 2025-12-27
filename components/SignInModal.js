@@ -18,7 +18,7 @@ function SignInModal({ onClose, onOpen }) {
     mutationKey: ["signin"],
     mutationFn: signInRequest,
     onSuccess: async (data) => {
-      queryClient.refetchQueries({ queryKey: ["me"], type: "active" });
+     await queryClient.refetchQueries({ queryKey: ["me"], type: "active" });
 
       toast.success(data.message || "Signed in successfully!");
       setEmail("");
