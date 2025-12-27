@@ -14,22 +14,24 @@ function SignInModal({ onClose, onOpen }) {
 
   const queryClient = useQueryClient();
 
-  const { mutate, isPending } = useMutation({
-    mutationKey: ["signin"],
-    mutationFn: signInRequest,
-    onSuccess: async (data) => {
-     await queryClient.refetchQueries({ queryKey: ["me"], type: "active" });
+const { mutate, isPending } = useMutation({
+  mutationKey: ["signin"],
+  mutationFn: signInRequest,
+  onSuccess: async (data) => {
+    await queryClient.refetchQueries({
+      queryKey: ["me"],
+      type: "active",
+    });
 
-      toast.success(data.message || "Signed in successfully!");
-      setEmail("");
-      setPassword("");
-      onClose(false);
-    },
-    onError: (error) => {
-      // error.message is what we threw above
-      toast.error(error.message);
-    },
-  });
+    toast.success(data.message || "Signed in successfully!");
+    setEmail("");
+    setPassword("");
+    onClose(false);
+  },
+  onError: (error) => {
+    toast.error(error.message);
+  },
+});
 
   const onSubmit = (e) => {
     e.preventDefault();
